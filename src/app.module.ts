@@ -9,6 +9,8 @@ import { RentModule } from "./rent/rent.module";
 
 import { User } from "./users/user.entity";
 import { UsersModule } from "./users/users.module";
+import { ScootersModule } from "./scooters/scooters.module";
+import { Scooter } from "./scooters/scooter.entity";
 
 @Module({
 	imports: [
@@ -23,11 +25,12 @@ import { UsersModule } from "./users/users.module";
 			username: process.env.POSTGRES_USER,
 			password: process.env.POSTGRES_PASSWORD,
 			database: process.env.POSTGRES_DB,
-			entities: [User],
+			entities: [User, Scooter],
 			synchronize: process.env.NODE_ENV === "development" ? true : false,
 		}),
 		RentModule,
 		UsersModule,
+		ScootersModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
