@@ -1,4 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, Index, OneToMany } from "typeorm";
+import { Rent } from "../rent/rent.entity";
+
 @Entity("scooters")
 export class Scooter {
 	@PrimaryGeneratedColumn("uuid")
@@ -8,6 +10,9 @@ export class Scooter {
 	license_plate: string;
 
 	@Index({ unique: true })
-	@Column("varchar", { length: 255 })
+	@Column("varchar", { length: 17 })
 	VIN: string;
+
+	@OneToMany(() => Rent, (rent) => rent.scooter)
+	rents: Rent[];
 }

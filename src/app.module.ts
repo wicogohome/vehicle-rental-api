@@ -5,10 +5,12 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 
+import { Rent } from "./rent/rent.entity";
 import { RentModule } from "./rent/rent.module";
 
 import { User } from "./users/user.entity";
 import { UsersModule } from "./users/users.module";
+
 import { ScootersModule } from "./scooters/scooters.module";
 import { Scooter } from "./scooters/scooter.entity";
 
@@ -25,7 +27,7 @@ import { Scooter } from "./scooters/scooter.entity";
 			username: process.env.POSTGRES_USER,
 			password: process.env.POSTGRES_PASSWORD,
 			database: process.env.POSTGRES_DB,
-			entities: [User, Scooter],
+			entities: [User, Scooter, Rent],
 			synchronize: process.env.NODE_ENV === "development" ? true : false,
 		}),
 		RentModule,

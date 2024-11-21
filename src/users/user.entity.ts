@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, Index } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, Index, OneToMany } from "typeorm";
+import { Rent } from "../rent/rent.entity";
 
 @Entity("users")
 export class User {
@@ -15,4 +16,7 @@ export class User {
 	@Index({ unique: true })
 	@Column("varchar", { length: 10 })
 	driving_license: string;
+
+	@OneToMany(() => Rent, (rent) => rent.user)
+	rents: Rent[];
 }
