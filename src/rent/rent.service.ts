@@ -16,13 +16,17 @@ export class RentService {
 		private usersService: UsersService
 	) {}
 
-	get(): Promise<Rent[]> {
+	findAll(): Promise<Rent[]> {
 		return this.rentsRepository.find({
 			relations: {
 				user: true,
 				scooter: true,
 			},
 		});
+	}
+
+	findOne(id: string): Promise<Rent | null> {
+		return this.rentsRepository.findOneBy({ id });
 	}
 
 	async create(userId: string, scooterId: string): Promise<Rent> {
@@ -71,5 +75,20 @@ export class RentService {
 		});
 
 		return !activeRent;
+	}
+
+	async returnScooter(rentId: string): Promise<Rent> {
+		const rent = await this.findOne(rentId);
+		if (!rent) {
+			throw new NotFoundException("Rental record not found");
+		}
+
+		if (rent.end_at) {
+			throw new BadRequestException("Rental return time has already been set.");
+		}
+
+		rent.end_at = new Date();
+
+		return this.rentsRepository.save(rent);
 	}
 }
