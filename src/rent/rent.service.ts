@@ -3,8 +3,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { IsNull, Repository } from "typeorm";
 import { Rent } from "./rent.entity";
 
-import { ScootersService } from "src/scooters/scooters.service";
-import { UsersService } from "src/users/users.service";
+import { ScootersService } from "../scooters/scooters.service";
+import { UsersService } from "../users/users.service";
 
 @Injectable()
 export class RentService {
