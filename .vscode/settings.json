@@ -1,0 +1,24 @@
+{
+	"editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+	"editor.formatOnType": false, // required
+	"editor.formatOnPaste": false, // optional
+	"editor.formatOnSave": true, // optional
+	"editor.formatOnSaveMode": "file", // required to format on save
+	"files.autoSave": "afterDelay", // optional but recommended
+	"vs-code-prettier-eslint.prettierLast": true, // set as "true" to run 'prettier' last not first
+	"[javascript]": {
+		"editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+	},
+	"[markdown]": {
+		"editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+	},
+	"[ts]": {
+		"editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+	},
+	"editor.quickSuggestions": {
+		"strings": "on"
+	},
+}
