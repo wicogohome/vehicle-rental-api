@@ -4,7 +4,6 @@ import { DataSource, EntityManager, IsNull, Repository } from "typeorm";
 import { Rent } from "./rent.entity";
 
 import { ScootersService } from "../scooters/scooters.service";
-import { UsersService } from "../users/users.service";
 import { Scooter } from "../scooters/scooter.entity";
 import { User } from "../users/user.entity";
 
@@ -16,7 +15,6 @@ export class RentService {
 		private rentsRepository: Repository<Rent>,
 
 		private scootersService: ScootersService,
-		private usersService: UsersService
 	) {}
 
 	findAll(): Promise<Rent[]> {
@@ -42,6 +40,7 @@ export class RentService {
 		return await this.dataSource.transaction(async (manager) => {
 			// get models
 			const user = await manager.findOneBy(User, { id: userId });
+
 			if (!user) {
 				throw new NotFoundException("User not found");
 			}
@@ -100,6 +99,7 @@ export class RentService {
 			model = this.rentsRepository;
 		}
 		const activeRent = await model.existsBy(Rent, {
+			scooter: { id: scooter.id },
 			end_at: IsNull(),
 		});
 
@@ -108,7 +108,13 @@ export class RentService {
 
 	async returnScooter(rentId: string): Promise<Rent> {
 		return await this.dataSource.transaction(async (manager) => {
-			const rent = await this.findOne(rentId);
+			const rent = await manager.findOne(Rent, {
+				where: { id: rentId },
+				relations: {
+					user: true,
+					scooter: true,
+				},
+			});
 			if (!rent) {
 				throw new NotFoundException("Rental record not found");
 			}

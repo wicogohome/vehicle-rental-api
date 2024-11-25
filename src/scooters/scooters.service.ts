@@ -37,9 +37,9 @@ export class ScootersService {
 		const result: UpdateResult = await manager
 			.createQueryBuilder()
 			.update(Scooter)
-			.set({ is_available: true })
+			.set({ is_available: false })
 			.where("id = :id", { id: scooterId })
-			.andWhere("is_available = false")
+			.andWhere("is_available = true")
 			.andWhere("version = :version", { version: currentVersion })
 			.returning("*")
 			.execute();
