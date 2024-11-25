@@ -1,6 +1,6 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { EntityManager, Repository, UpdateResult } from "typeorm";
 import { Scooter } from "./scooter.entity";
 import { faker } from "@faker-js/faker";
 @Injectable()
@@ -27,5 +27,27 @@ export class ScootersService {
 
 	async remove(id: string): Promise<void> {
 		await this.scootersRepository.delete(id);
+	}
+
+	async reserveScooterWithVersionCheck(
+		manager: EntityManager,
+		scooterId: string,
+		currentVersion: number
+	): Promise<Scooter> {
+		const result: UpdateResult = await manager
+			.createQueryBuilder()
+			.update(Scooter)
+			.set({ is_available: true })
+			.where("id = :id", { id: scooterId })
+			.andWhere("is_available = false")
+			.andWhere("version = :version", { version: currentVersion })
+			.returning("*")
+			.execute();
+
+		if (result.affected === 0) {
+			throw new BadRequestException("Scooter has already been reserved or modified.");
+		}
+
+		return result.raw[0] as Scooter;
 	}
 }
