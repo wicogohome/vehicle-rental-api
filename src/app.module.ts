@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { ResponseInterceptor } from "./interceptors/response.interceptor";
 
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -13,6 +14,7 @@ import { UsersModule } from "./users/users.module";
 
 import { ScootersModule } from "./scooters/scooters.module";
 import { Scooter } from "./scooters/scooter.entity";
+import { APP_INTERCEPTOR } from "@nestjs/core";
 
 @Module({
 	imports: [
@@ -35,6 +37,12 @@ import { Scooter } from "./scooters/scooter.entity";
 		ScootersModule,
 	],
 	controllers: [AppController],
-	providers: [AppService],
+	providers: [
+		{
+			provide: APP_INTERCEPTOR,
+			useClass: ResponseInterceptor,
+		},
+		AppService,
+	],
 })
 export class AppModule {}
