@@ -1,3 +1,4 @@
+import { CreateRentDto } from "./dto/create-rent.dto";
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DataSource, EntityManager, IsNull, Repository } from "typeorm";
@@ -14,7 +15,7 @@ export class RentService {
 		@InjectRepository(Rent)
 		private rentsRepository: Repository<Rent>,
 
-		private scootersService: ScootersService,
+		private scootersService: ScootersService
 	) {}
 
 	findAll(): Promise<Rent[]> {
@@ -36,7 +37,8 @@ export class RentService {
 		});
 	}
 
-	async create(userId: string, scooterId: string): Promise<Rent> {
+	async create(createRentDto: CreateRentDto): Promise<Rent> {
+		const { userId, scooterId } = createRentDto;
 		return await this.dataSource.transaction(async (manager) => {
 			// get models
 			const user = await manager.findOneBy(User, { id: userId });
