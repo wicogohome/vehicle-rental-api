@@ -69,7 +69,7 @@ describe("RentService", () => {
 				})
 			);
 
-			await expect(service.create("user-id", "scooter-id")).rejects.toThrow(
+			await expect(service.create({ userId: "user-id", scooterId: "scooter-id" })).rejects.toThrow(
 				new NotFoundException("User not found")
 			);
 		});
@@ -83,7 +83,7 @@ describe("RentService", () => {
 				})
 			);
 
-			await expect(service.create("user-id", "scooter-id")).rejects.toThrow(
+			await expect(service.create({ userId: "user-id", scooterId: "scooter-id" })).rejects.toThrow(
 				new NotFoundException("Scooter not found")
 			);
 		});
@@ -100,7 +100,7 @@ describe("RentService", () => {
 
 			jest.spyOn(service, "isUserEligibleToRent").mockResolvedValue(false);
 
-			await expect(service.create("user-id", "scooter-id")).rejects.toThrow(
+			await expect(service.create({ userId: "user-id", scooterId: "scooter-id" })).rejects.toThrow(
 				new BadRequestException("User already has an active rental.")
 			);
 
@@ -120,7 +120,7 @@ describe("RentService", () => {
 			jest.spyOn(service, "isUserEligibleToRent").mockResolvedValue(true);
 			jest.spyOn(service, "isScooterAvailable").mockResolvedValue(false);
 
-			await expect(service.create("user-id", "scooter-id")).rejects.toThrow(
+			await expect(service.create({ userId: "user-id", scooterId: "scooter-id" })).rejects.toThrow(
 				new BadRequestException("The scooter is not available for rent.")
 			);
 
@@ -145,7 +145,7 @@ describe("RentService", () => {
 			const lockedScooter = { id: "scooter-id", is_available: false } as Scooter;
 			scootersService.reserveScooterWithVersionCheck.mockResolvedValue(lockedScooter);
 
-			const result = await service.create("user-id", "scooter-id");
+			const result = await service.create({ userId: "user-id", scooterId: "scooter-id" });
 
 			expect(result).toEqual({ id: "rent-id" });
 			expect(service.isUserEligibleToRent).toHaveBeenCalled();

@@ -1,8 +1,9 @@
+import { CreateRentDto } from "./dto/create-rent.dto";
 import { RentService } from "./rent.service";
 
-import { Controller, Get, Post, Body, ParseUUIDPipe, Patch, Param } from "@nestjs/common";
+import { Controller, Get, Post, Body, ParseUUIDPipe, Patch, Param, ValidationPipe } from "@nestjs/common";
 
-@Controller("api/rent")
+@Controller("api/rents")
 export class RentController {
 	constructor(private rentService: RentService) {}
 
@@ -12,8 +13,8 @@ export class RentController {
 	}
 
 	@Post()
-	create(@Body("user_id", ParseUUIDPipe) userId: string, @Body("scooter_id", ParseUUIDPipe) scooterId: string) {
-		return this.rentService.create(userId, scooterId);
+	create(@Body(new ValidationPipe()) creatRentDto: CreateRentDto) {
+		return this.rentService.create(creatRentDto);
 	}
 
 	@Patch(":rentId/return")
