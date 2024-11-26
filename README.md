@@ -15,7 +15,7 @@
 
 Vehicle Rental API是一個提供車輛租借API的Nest.js專案，可透過API讓指定使用者對指定車輛進行租借與歸還。
 
-以下API用於租車與環車：
+以下API用於租車與還車：
 
 1. Rent
     1. 建立 Rent（租車）
@@ -89,7 +89,7 @@ $ docker compose up
 | column          | type                 | comment          |
 | --------------- | -------------------- | ---------------- |
 | id              | uuid                 | primary key      |
-| national_ID_No  | charcter varying(10) | 身分證字號或護照 |
+| identification_number  | charcter varying(10) | 身分證字號或護照 |
 | driving_license | charcter varying(10) | 駕照或國際駕照   |
 
 #### memo
