@@ -189,7 +189,7 @@ erDiagram
 
     PRICING_MODEL {
         string id PK
-        emun unit "min, km"
+        enum unit "min, km"
         int unit_quantity
         decimal unit_price
         int limit_unit_quantity
@@ -208,7 +208,7 @@ erDiagram
         string id PK
         string name
         decimal unit_price
-        emun period_type "M, Y"
+        enum period_type "M, Y"
         int period_count
         string pricing_plan_id FK
         string discount_plan_id FK
